@@ -1,10 +1,10 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { Component } from 'react'
 import { SingleButton } from './SingleButton';
 import { InputButton } from './InputButton';
-
+import Button from '@material-ui/core/Button'
+import Box from '@material-ui/core/Box'
 
 export class App extends Component {
   constructor(props) {
@@ -26,7 +26,7 @@ export class App extends Component {
     this.setState({count: x});
   }
   inputinc(c){
-    if(isNaN(c)|| c == '')
+    if(isNaN(c)|| c === '')
     alert("please a valid input");
     else{
   const x = this.state.count + parseInt(c);
@@ -35,7 +35,7 @@ export class App extends Component {
     }
   }
   inputdec(c){
-    if(isNaN(c) || c == '')
+    if(isNaN(c) || c === '')
     alert("please a valid input");
     else{
   const x = this.state.count - parseInt(c);
@@ -47,12 +47,12 @@ export class App extends Component {
     
     return (
       <div align="center">
-        <label ><h1>{this.state.count}</h1></label>
+       <h1>{this.state.count}</h1>
         <SingleButton click={this.singleinc} flag='inc' />
         <SingleButton click={this.singledec} flag='dec' />
         <InputButton click={this.inputinc} flag='inc' />
         <InputButton click={this.inputdec} flag='dec' />
-        <button onClick={() => this.setState({count: 0})} >Reset </button>
+        <Button variant="outlined" color="primary" onClick={() => this.setState({count: 0})} >Reset </Button>
       </div>
     )
     }

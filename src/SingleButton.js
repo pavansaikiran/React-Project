@@ -1,4 +1,8 @@
 import React, { Component } from 'react'
+import Box from '@material-ui/core/Box'
+import Button from '@material-ui/core/Button'
+
+
 
 export class SingleButton extends Component {
     constructor(props) {
@@ -10,12 +14,14 @@ export class SingleButton extends Component {
     render() {
         if(this.props.flag === 'inc'){
             return (
-                <button onClick={this.props.click}>++</button>
+                <Button variant="contained" color="primary"  onClick={this.props.click}>++</Button>
+                
             )
         }
         else{
             return (
-                <button onClick={this.props.click}>--</button>
+                
+                <Button variant="contained" color="secondary" onClick={this.props.click}>--</Button>
             )
         }
     }

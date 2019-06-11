@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button'
+import Box from '@material-ui/core/Box'
 
 export class InputButton extends Component {
     constructor(props) {
@@ -20,17 +23,31 @@ export class InputButton extends Component {
     render() {
         if(this.props.flag === 'inc'){
         return (
-            <div>
-                <input value={this.state.inc} onChange={this.handleinc} />
-                <button onClick={() => this.props.click(this.state.inc)}>+</button>
-            </div>
+            <Box style={{margin: '10px', padding: '10px' , width: '25%'}} boxShadow={3}  borderRadius={16} >
+        <TextField
+        id="standard-number"
+        label="Increase By"
+        onChange={this.handleinc}
+        type="number"
+        InputLabelProps={{
+          shrink: true,
+        }}
+       value={this.state.inc}  />
+         <Button style={{margin: 10}} variant="contained" color="primary" size="large" onClick={() => this.props.click(this.state.inc)}>+</Button>
+            </Box>
         )}
         else{
             return (
-                <div>
-                <input value={this.state.dec} onChange={this.handledec} />
-                <button onClick={() => this.props.click(this.state.dec)}>-</button>
-            </div>
+                <Box style={{margin: '10px', padding: '10px' , width: '25%'}} boxShadow={3} borderRadius={16} >  
+          <TextField
+        label="Decrease By"
+        type="number"
+        InputLabelProps={{
+          shrink: true,
+        }}  value={this.state.dec} onChange={this.handledec} />
+        <Button style={{margin: 10}} variant="contained" color="secondary" size="large" onClick={() => this.props.click(this.state.dec)}>-</Button>
+           </Box> 
+
             )
         }
         
