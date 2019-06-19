@@ -1,54 +1,27 @@
 const fs = require('fs');
-const _ = require('lodash');
-let data = fs.readFileSync('./Downloads/data.json');
-let  text = JSON.parse(data);
-output(text);
-function output(text)   {
-    var dataarray = [];
-    var obj = _.groupBy(text,function(d){
-        var t = new Date(d["time"]);
-        delete d["time"];
-        return t.getMonth("MM")+1+"/"+t.getDate();
-    });
-    //console.log(obj);
-    for(var key in obj){
-         var daydata = obj[key].reduce(function(daydata,d){
-
-            var value = 0;
-            for(var k in d["values"]){
-                var group = k;
-                value = d["values"][k];
-                
-                if(!daydata[group]) {
-                    daydata[group] = {};
-                    daydata[group]["val"] = value;
-                    daydata[group]["count"] = (daydata[group]["count"] | 0) + 1;
-                }
-                else {
-                    daydata[group]["val"]+=value;
-                    daydata[group]["count"]+=1;
-                }
-            }
-            daydata["values"] = {};
-            for(var p in daydata){
-                if(p!="values")
-                daydata["values"][p] = daydata[p]["val"]/daydata[p]["count"];
-            }
-            return daydata;
-        },{});
-        for(var k in daydata){
-            daydata["day"] = key;
-            if(k!="values"){
-                delete daydata[k];
-            }
-        }
-        dataarray.push(daydata)
-        
+var data = fs.readFileSync('data.json');
+var text = JSON.parse(data);
+var daygrp = text.reduce(function(obj,curr){
+    var t = new Date(curr["time"]);
+    var group = (t.getMonth()+1)+"/"+t.getDate();
+    for(var key in curr["values"]){
+        obj[group] = (obj[group] || {});
+        obj[group][key] = (obj[group][key] || {});
+        obj[group][key]["val"] = (obj[group][key]["val"] || 0) + curr["values"][key];
+        obj[group][key]["cnt"] = (obj[group][key]["cnt"] || 0) + 1;
+        obj[group][key]["avg"] = (obj[group][key]["val"])/(obj[group][key]["cnt"]);
     }
-    console.log(dataarray)
-  
+    return obj;
+},{});
+var dataarray = [];
+for(var key in daygrp){
+    var x = {};
+    x["day"] = key;
+    x["values"] = {};
+    for(var k in daygrp[key]){
+        x["values"][k] = daygrp[key][k]["avg"];
     }
-        
-   
-
+    dataarray.push(x);
+}
+console.log(dataarray);
 
